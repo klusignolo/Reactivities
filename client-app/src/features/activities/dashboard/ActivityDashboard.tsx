@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { Grid, GridColumn } from 'semantic-ui-react'
 import { IActivity } from '../../../app/models/activity'
 import { ActivityList } from './ActivityList'
@@ -14,7 +14,9 @@ interface IProps {
     setSelectedActivity: (activity: IActivity | null ) => void;
     createActivity: (activity: IActivity) => void;
     editActivity: (activity: IActivity) => void;
-    deleteActivity: (id: string) => void;
+    deleteActivity: (e: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+    submitting: boolean;
+    target: string;
 }
 
 export const ActivityDashboard: React.FC<IProps> = ({
@@ -26,7 +28,9 @@ export const ActivityDashboard: React.FC<IProps> = ({
     setSelectedActivity,
     createActivity,
     editActivity,
-    deleteActivity
+    deleteActivity,
+    submitting,
+    target
 }) => {
     return (
         <Grid>
@@ -34,23 +38,25 @@ export const ActivityDashboard: React.FC<IProps> = ({
                 <ActivityList
                     activities={activities}
                     selectActivity={selectActivity}
-                    deleteActivity={deleteActivity} /> 
+                    deleteActivity={deleteActivity}
+                    submitting={submitting}
+                    target={target} /> 
             </GridColumn>
             <GridColumn width={6}>
-                {selectedActivity && !editMode &&
+                {selectedActivity && !editMode && (
                 <ActivityDetails activity={selectedActivity} setEditMode={setEditMode}
                 setSelectedActivity={setSelectedActivity} />
-                }
-                {editMode &&
+                )}
+                {editMode && (
                 <ActivityForm 
                     key={(selectedActivity && selectedActivity.id) || 0}
                     setEditMode={setEditMode}
                     activity={selectedActivity!}
                     createActivity={createActivity}
                     editActivity={editActivity}
-                
+                    submitting={submitting}
                 />
-                }
+                )}
             </GridColumn>
         </Grid>
     )
