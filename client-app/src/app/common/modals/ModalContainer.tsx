@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { RootStoreContext } from '../../stores/rootStore';
 import { observer } from 'mobx-react-lite';
 
-export const ModalContainer = () => {
+const ModalContainer = () => {
     const rootStore = useContext(RootStoreContext);
     const {modal: {open, body}, closeModal} = rootStore.modalStore;
     return (
